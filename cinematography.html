@@ -54,42 +54,46 @@
       </div>
     </section>
 
-    <!-- Stills / film tiles grid. Placeholders today; real imagery later. -->
+    <!-- Stills / film tiles grid. Thumbnails and titles are hardcoded: neither
+         Vimeo's nor YouTube's oEmbed endpoint sends CORS headers, so they
+         cannot be fetched from the browser. To add a tile, pull the values from
+         https://vimeo.com/api/oembed.json?url=<video-url> and paste them in. -->
     <section class="film-grid-section">
       <div class="container">
         <p class="eyebrow">Selected work</p>
         <div class="film-grid" aria-label="Selected work">
           <a href="https://vimeo.com/1129337192" target="_blank" rel="noopener"
-             class="film-tile film-tile-tall" data-vimeo-tile data-vimeo-id="1129337192">
-            <div class="film-img" role="img" aria-label="Video still"></div>
+             class="film-tile film-tile-tall">
+            <div class="film-img" role="img" aria-label="Black bear sow standing alert in an open field"
+                 style="background:url('https://i.vimeocdn.com/video/2072688639-1cd2c5feb40c05dfbb593dd3e65bc10b0393fb183d8b34ade4b22eaba81af55c-d_800x450?region=us') center/cover"></div>
             <div class="film-meta">
-              <p class="film-title">Untitled</p>
-              <p class="film-tag">Cinematography</p>
+              <p class="film-title">Black Bear &mdash; Sow and Yearlings</p>
+              <p class="film-tag">Coastal North Carolina</p>
             </div>
           </a>
-          <a href="https://vimeo.com/1129329761" target="_blank" rel="noopener"
-             class="film-tile" data-vimeo-tile data-vimeo-id="1129329761">
-            <div class="film-img" role="img" aria-label="Video still"></div>
+          <a href="https://vimeo.com/1129329761" target="_blank" rel="noopener" class="film-tile">
+            <div class="film-img" role="img" aria-label="Red wolf hunting in an open meadow"
+                 style="background:url('https://i.vimeocdn.com/video/2072693229-089e53390b07a50eafb2f822009aa02af3cb943537e76f099b2b8d63908573c5-d_800x450?region=us') center/cover"></div>
             <div class="film-meta">
-              <p class="film-title">Untitled</p>
-              <p class="film-tag">Cinematography</p>
+              <p class="film-title">Red Wolf &mdash; Hunting in Field</p>
+              <p class="film-tag">Red Wolf Recovery</p>
             </div>
           </a>
-          <a href="https://vimeo.com/1129696231" target="_blank" rel="noopener"
-             class="film-tile" data-vimeo-tile data-vimeo-id="1129696231">
-            <div class="film-img" role="img" aria-label="Video still"></div>
+          <a href="https://vimeo.com/1129696231" target="_blank" rel="noopener" class="film-tile">
+            <div class="film-img" role="img" aria-label="Male banded jawfish mouth-brooding eggs at its burrow"
+                 style="background:url('https://i.vimeocdn.com/video/2073157593-050f1e6a230303ff01e955e25eccec3262b2384c194ec6dda62e879605d6f5f0-d_800x450?region=us') center/cover"></div>
             <div class="film-meta">
-              <p class="film-title">Untitled</p>
-              <p class="film-tag">Cinematography</p>
+              <p class="film-title">Banded Jawfish &mdash; Mouth Brooding</p>
+              <p class="film-tag">Underwater Macro</p>
             </div>
           </a>
           <a href="https://www.youtube.com/watch?v=Q_3gMbPUsVY" target="_blank" rel="noopener"
              class="film-tile film-tile-wide" data-youtube-tile data-youtube-id="Q_3gMbPUsVY">
-            <div class="film-img" role="img" aria-label="Video still"
+            <div class="film-img" role="img" aria-label="Wild red wolf foraging and catching prey"
                  style="background:url('https://i.ytimg.com/vi/Q_3gMbPUsVY/maxresdefault.jpg') center/cover"></div>
             <div class="film-meta">
-              <p class="film-title">Untitled</p>
-              <p class="film-tag">Cinematography</p>
+              <p class="film-title">Wild Red Wolf &mdash; Foraging and Predation</p>
+              <p class="film-tag">Long-form &middot; YouTube</p>
             </div>
           </a>
           <a href="https://vimeo.com/1190949484" target="_blank" rel="noopener" class="film-tile">
@@ -102,11 +106,11 @@
           </a>
           <a href="https://www.youtube.com/watch?v=ZwtxXZlKIXQ" target="_blank" rel="noopener"
              class="film-tile" data-youtube-tile data-youtube-id="ZwtxXZlKIXQ">
-            <div class="film-img" role="img" aria-label="Video still"
+            <div class="film-img" role="img" aria-label="Octopus behavior at Blue Heron Bridge"
                  style="background:url('https://i.ytimg.com/vi/ZwtxXZlKIXQ/maxresdefault.jpg') center/cover"></div>
             <div class="film-meta">
-              <p class="film-title">Untitled</p>
-              <p class="film-tag">Cinematography</p>
+              <p class="film-title">Octopus &mdash; Blue Heron Bridge</p>
+              <p class="film-tag">Long-form &middot; YouTube</p>
             </div>
           </a>
         </div>
