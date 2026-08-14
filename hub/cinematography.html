@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinematography — Andrew Stuckey</title>
+  <meta name="description" content="Wildlife and underwater cinematography.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:#0097B2; --teal-deep:#0C454F; --ice:#C3D8DC; --fog:#849DA1;
+      --graphite:#323536; --rust:#732209; --white:#FFFFFF;
+      --ink-soft:#4A5256; --rule:#D9E3E5;
+      --ff-display:"Archivo Black",sans-serif;
+      --ff-body:"DM Sans",system-ui,sans-serif;
+      --pad: clamp(20px,5vw,60px);
+      --maxw: 1180px;
+      --maxw-text: 760px;
+    }
+
+    html { font-size:16px; -webkit-font-smoothing:antialiased; }
+    body {
+      background:var(--white); color:var(--graphite);
+      font-family:var(--ff-body);
+      font-size:clamp(1rem,1.2vw,1.1rem); line-height:1.55;
+    }
+    a { color:inherit; text-underline-offset:3px; }
+    a:hover { color:var(--teal); }
+
+    /* NAV */
+    .site-header {
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--rule);
+    }
+    .nav {
+      max-width:var(--maxw); margin:0 auto; padding:18px var(--pad);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand {
+      font-family:var(--ff-display); font-size:0.95rem;
+      text-transform:uppercase; letter-spacing:0.06em;
+      color:var(--graphite); text-decoration:none;
+    }
+    .brand:hover { color:var(--teal-deep); }
+    .nav-links { display:flex; gap:32px; list-style:none; }
+    .nav-links a {
+      font-size:0.88rem; font-weight:500;
+      color:var(--ink-soft); text-decoration:none;
+    }
+    .nav-links a:hover { color:var(--graphite); }
+    .nav-links a[aria-current="page"] { color:var(--teal-deep); }
+
+    /* REEL HERO */
+    .reel {
+      background:var(--teal-deep);
+      aspect-ratio: 16 / 9;
+      width:100%;
+      max-height: 78vh;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+    }
+    .reel-note {
+      color:rgba(255,255,255,0.35);
+      font-size:0.8rem; letter-spacing:0.14em;
+      text-transform:uppercase;
+    }
+    /* When the reel is ready, drop the iframe/video in here and delete .reel-note */
+
+    /* SECTION LABEL */
+    .section { max-width:var(--maxw); margin:0 auto; padding:0 var(--pad) clamp(40px,7vh,76px); }
+    .section-first { padding-top: clamp(40px,7vh,76px); }
+    .section-label {
+      font-size:0.74rem; text-transform:uppercase; letter-spacing:0.16em;
+      color:var(--fog); font-weight:500; margin-bottom:20px;
+      padding-bottom:10px; border-bottom:2px solid var(--teal-deep);
+    }
+
+    /* FILM GRID */
+    .film-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:32px 24px;
+    }
+    .film-tile { display:block; text-decoration:none; }
+    .film-frame {
+      position:relative; aspect-ratio:16 / 9;
+      overflow:hidden; background:var(--ice);
+    }
+    .film-img {
+      position:absolute; inset:0;
+      background-size:cover; background-position:center;
+      transition:transform 0.5s ease;
+    }
+    .film-tile:hover .film-img { transform:scale(1.03); }
+    .film-meta { padding-top:12px; }
+    .film-title {
+      color:var(--graphite); font-size:0.95rem;
+      font-weight:500; line-height:1.35;
+    }
+
+    /* Hover preview layer — desktop pointer devices only */
+    .film-preview {
+      position:absolute; inset:0;
+      border:0; opacity:0;
+      pointer-events:none;          /* clicks pass through to the tile link */
+      transition:opacity 0.35s ease;
+      z-index:1;
+    }
+    .film-preview.is-ready { opacity:1; }
+    
+    /* Kill the zoom on hover when a preview is playing */
+    .film-tile.is-previewing .film-img { transform:none; }
+
+    /* EQUIPMENT */
+    .kit {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:28px 32px;
+    }
+    .kit h3 {
+      font-family:var(--ff-body);
+      font-size:0.74rem; text-transform:uppercase; letter-spacing:0.12em;
+      color:var(--fog); font-weight:500; margin-bottom:10px;
+    }
+    .kit ul { list-style:none; }
+    .kit li {
+      font-size:0.92rem; color:var(--ink-soft);
+      padding:5px 0; border-bottom:1px solid var(--rule);
+      line-height:1.4;
+    }
+    .kit li:last-child { border-bottom:0; }
+    .qty { color:var(--fog); font-size:0.85em; }
+
+    /* STOCK */
+    .stock {
+      max-width:var(--maxw); margin:0 auto;
+      padding:0 var(--pad) clamp(40px,7vh,76px);
+    }
+    .stock-inner {
+      border-top:2px solid var(--teal-deep);
+      padding-top:24px;
+      display:flex; justify-content:space-between;
+      align-items:baseline; gap:24px; flex-wrap:wrap;
+    }
+    .stock-inner p { color:var(--ink-soft); max-width:52ch; }
+    .stock-inner a {
+      font-family:var(--ff-display); font-size:0.8rem;
+      text-transform:uppercase; letter-spacing:0.07em;
+      color:var(--teal-deep); text-decoration:none;
+      border-bottom:2px solid var(--teal); padding-bottom:3px;
+      white-space:nowrap;
+    }
+    .stock-inner a:hover { color:var(--teal); }
+
+    /* FOOTER */
+    .site-footer {
+      border-top:1px solid var(--rule);
+      padding:32px var(--pad);
+      max-width:var(--maxw); margin:0 auto;
+      display:flex; justify-content:space-between;
+      align-items:center; flex-wrap:wrap; gap:16px;
+    }
+    .footer-name {
+      font-family:var(--ff-display); font-size:0.82rem;
+      text-transform:uppercase; letter-spacing:0.06em; color:var(--fog);
+    }
+    .footer-links { display:flex; gap:24px; flex-wrap:wrap; }
+    .footer-links a { font-size:0.85rem; color:var(--fog); text-decoration:none; }
+    .footer-links a:hover { color:var(--graphite); }
+
+    @media (max-width:900px) {
+      .kit { grid-template-columns:repeat(2,1fr); }
+      .film-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:600px) {
+      .nav-links { display:none; }
+      .film-grid { grid-template-columns:1fr; }
+      .kit { grid-template-columns:1fr; }
+      .site-footer { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a href="/" class="brand">Andrew Stuckey</a>
+      <ul class="nav-links">
+        <li><a href="/about">About</a></li>
+        <li><a href="/academics">Academics</a></li>
+        <li><a href="/cinematography" aria-current="page">Cinematography</a></li>
+        <li><a href="/media">Media</a></li>
+        <li><a href="https://coralandpine.com">Coral and Pine</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===== REEL ===== -->
+    <section class="reel" aria-label="Reel">
+      <span class="reel-note">Reel</span>
+    </section>
+
+    <!-- ===== SELECTED WORK ===== -->
+    <section class="section section-first">
+      <p class="section-label">Selected work</p>
+      <div class="film-grid">
+
+        <a href="https://vimeo.com/1129337192" target="_blank" rel="noopener" class="film-tile" data-preview="vimeo" data-preview-id="1129337192">
+          <div class="film-frame">
+            <div class="film-img" role="img" aria-label="Black bear sow standing alert in an open field"
+               style="background-image:url('https://i.vimeocdn.com/video/2072688639-1cd2c5feb40c05dfbb593dd3e65bc10b0393fb183d8b34ade4b22eaba81af55c-d_800x450?region=us')"></div>
+          </div>
+          <div class="film-meta">
+            <p class="film-title">Black Bear — Sow and Yearlings</p>
+          </div>
+        </a>
+
+        <a href="https://vimeo.com/1129329761" target="_blank" rel="noopener" class="film-tile" data-preview="vimeo" data-preview-id="1129329761">
+          <div class="film-frame">
+            <div class="film-img" role="img" aria-label="Red wolf hunting in an open meadow"
+               style="background-image:url('https://i.vimeocdn.com/video/2072693229-089e53390b07a50eafb2f822009aa02af3cb943537e76f099b2b8d63908573c5-d_800x450?region=us')"></div>
+          </div>
+          <div class="film-meta">
+            <p class="film-title">Red Wolf — Hunting in Field</p>
+          </div>
+        </a>
+
+        <a href="https://vimeo.com/1129696231" target="_blank" rel="noopener" class="film-tile" data-preview="vimeo" data-preview-id="1129696231">
+          <div class="film-frame">
+            <div class="film-img" role="img" aria-label="Male banded jawfish mouth-brooding eggs at its burrow"
+               style="background-image:url('https://i.vimeocdn.com/video/2073157593-050f1e6a230303ff01e955e25eccec3262b2384c194ec6dda62e879605d6f5f0-d_800x450?region=us')"></div>
+          </div>
+          <div class="film-meta">
+            <p class="film-title">Banded Jawfish — Mouth Brooding</p>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=Q_3gMbPUsVY" target="_blank" rel="noopener"
+           class="film-tile" data-youtube-tile data-youtube-id="Q_3gMbPUsVY" data-preview="youtube" data-preview-id="Q_3gMbPUsVY">
+          <div class="film-frame">
+            <div class="film-img" role="img" aria-label="Wild red wolf foraging and catching prey"
+               style="background-image:url('https://i.ytimg.com/vi/Q_3gMbPUsVY/maxresdefault.jpg')"></div>
+          </div>
+          <div class="film-meta">
+            <p class="film-title">Wild Red Wolf — Foraging and Predation</p>
+          </div>
+        </a>
+
+        <a href="https://vimeo.com/1190949484" target="_blank" rel="noopener" class="film-tile" data-preview="vimeo" data-preview-id="1190949484">
+          <div class="film-frame">
+            <div class="film-img" role="img" aria-label="Super-macro detail of a lined seahorse, underwater"
+               style="background-image:url('https://i.vimeocdn.com/video/2155843077-a51ef3ed5c1eadcf2179f3443f5bfe35d760b9ca31bc71c15bf1dcffb1450634-d_800x450?region=us')"></div>
+          </div>
+          <div class="film-meta">
+            <p class="film-title">Lined Seahorse — Super Macro</p>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=ZwtxXZlKIXQ" target="_blank" rel="noopener"
+           class="film-tile" data-youtube-tile data-youtube-id="ZwtxXZlKIXQ" data-preview="youtube" data-preview-id="ZwtxXZlKIXQ">
+          <div class="film-frame">
+            <div class="film-img" role="img" aria-label="Octopus behavior at Blue Heron Bridge"
+               style="background-image:url('https://i.ytimg.com/vi/ZwtxXZlKIXQ/maxresdefault.jpg')"></div>
+          </div>
+          <div class="film-meta">
+            <p class="film-title">Octopus — Blue Heron Bridge</p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ===== EQUIPMENT ===== -->
+    <section class="section">
+      <p class="section-label">Equipment</p>
+      <div class="kit">
+        <div>
+          <h3>Cinema Cameras</h3>
+          <ul>
+            <li>RED V-Raptor X <span class="qty">(×2)</span></li>
+            <li>RED V-Raptor Rhino 8K S35</li>
+            <li>RED Komodo 6K</li>
+            <li>Nikon Z9</li>
+            <li>Nikon ZR</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Lenses</h3>
+          <ul>
+            <li>Nikkor Z 600mm f/4 TC VR S</li>
+            <li>Nikkor Z 400mm f/2.8 TC VR S</li>
+            <li>Nikkor Z 800mm f/6.3 PF VR S</li>
+            <li>Standard Z zooms &amp; 105mm macro</li>
+            <li>Laowa Pro2be 24mm T8 probe set</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Underwater Housings</h3>
+          <ul>
+            <li>Nauticam RED V-Raptor <span class="qty">(×2)</span></li>
+            <li>Nauticam Nikon Z9</li>
+            <li>Nauticam Nikon ZR</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Water Optics</h3>
+          <ul>
+            <li>Nauticam EMWL, full kit</li>
+            <li>WACP-1</li>
+            <li>SMC-3</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Lighting</h3>
+          <ul>
+            <li>Nanlite &amp; Godox LED packages</li>
+            <li>Kraken Sports video lights</li>
+            <li>Retra Flash Pro Max II strobes</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Aerial</h3>
+          <ul>
+            <li>DJI Mavic 4 Pro</li>
+            <li>DJI Mini 5 Pro</li>
+            <li>DJI Avata 2 (FPV)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Diving</h3>
+          <ul>
+            <li>Full open-circuit SCUBA kit</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STOCK ===== -->
+    <section class="stock">
+      <div class="stock-inner">
+        <p>Selected wildlife and underwater clips are licensed through NatureFootage.</p>
+        <a href="https://www.naturefootage.com/contributor/profile/astucke1/andrew-stuckey-andrew-stuckey-media-llc" rel="noopener">View library →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-name">Andrew Stuckey</span>
+    <div class="footer-links">
+      <a href="mailto:andrew.w.stuckey@gmail.com">andrew.w.stuckey@gmail.com</a>
+      <a href="https://www.instagram.com/drew_stuckey_/" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@andrew_stuckey" rel="noopener">YouTube</a>
+      <a href="https://www.naturefootage.com/contributor/profile/astucke1/andrew-stuckey-andrew-stuckey-media-llc" rel="noopener">NatureFootage</a>
+      <a href="https://orcid.org/0009-0002-7834-4439" rel="noopener">ORCID</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+  /* ---------------------------------------------------------------
+     Hover-to-play previews.
+     Desktop pointer devices only — touch devices keep the static
+     thumbnail, so mobile never loads six players at once.
+     --------------------------------------------------------------- */
+  (function () {
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+    if (!canHover.matches) return;
+
+    var HOLD = 220; // ms cursor must rest before we load anything
+
+    document.querySelectorAll('.film-tile[data-preview]').forEach(function (tile) {
+      var timer = null;
+      var frame = null;
+
+      function src() {
+        var id = tile.dataset.previewId;
+        if (tile.dataset.preview === 'vimeo') {
+          return 'https://player.vimeo.com/video/' + id +
+                 '?background=1&autoplay=1&loop=1&muted=1';
+        }
+        return 'https://www.youtube.com/embed/' + id +
+               '?autoplay=1&mute=1&controls=0&loop=1&playsinline=1' +
+               '&modestbranding=1&rel=0&playlist=' + id;
+      }
+
+      function start() {
+        if (frame) return;
+        frame = document.createElement('iframe');
+        frame.className = 'film-preview';
+        frame.setAttribute('tabindex', '-1');
+        frame.setAttribute('aria-hidden', 'true');
+        frame.setAttribute('allow', 'autoplay');
+        frame.src = src();
+        frame.addEventListener('load', function () {
+          frame.classList.add('is-ready');
+          tile.classList.add('is-previewing');
+        });
+        (tile.querySelector('.film-frame') || tile).appendChild(frame);
+      }
+
+      function stop() {
+        clearTimeout(timer);
+        tile.classList.remove('is-previewing');
+        if (frame) { frame.remove(); frame = null; }
+      }
+
+      tile.addEventListener('mouseenter', function () {
+        timer = setTimeout(start, HOLD);
+      });
+      tile.addEventListener('mouseleave', stop);
+      tile.addEventListener('focusout', stop);
+    });
+  })();
+  </script>
+</body>
+</html>

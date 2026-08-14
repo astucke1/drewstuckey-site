@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academics — Andrew Stuckey</title>
+  <meta name="description" content="Research, publications, teaching, and talks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:      #0097B2;
+      --teal-deep: #0C454F;
+      --ice:       #C3D8DC;
+      --fog:       #849DA1;
+      --graphite:  #323536;
+      --rust:      #732209;
+      --white:     #FFFFFF;
+      --ink-soft:  #4A5256;
+      --rule:      #D9E3E5;
+
+      --ff-display: "Archivo Black", sans-serif;
+      --ff-body:    "DM Sans", system-ui, sans-serif;
+
+      --pad: clamp(20px, 5vw, 60px);
+      --maxw: 1180px;
+      --maxw-text: 760px;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--graphite);
+      font-family: var(--ff-body);
+      font-size: clamp(1rem, 1.2vw, 1.1rem);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; text-underline-offset: 3px; }
+    a:hover { color: var(--teal); }
+
+    /* ---- NAV ---- */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav {
+      max-width: var(--maxw); margin: 0 auto;
+      padding: 18px var(--pad);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand {
+      font-family: var(--ff-display);
+      font-size: 0.95rem; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--graphite); text-decoration: none;
+    }
+    .brand:hover { color: var(--teal-deep); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 0.88rem; font-weight: 500;
+      color: var(--ink-soft); text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--graphite); }
+    .nav-links a[aria-current="page"] { color: var(--teal-deep); }
+
+    /* ---- PAGE HEAD ---- */
+    .page-head {
+      max-width: var(--maxw); margin: 0 auto;
+      padding: clamp(48px, 9vh, 104px) var(--pad) clamp(28px, 5vh, 56px);
+    }
+    .page-head h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+      text-transform: uppercase; line-height: 1;
+      color: var(--teal-deep);
+    }
+
+    /* ---- SECTION ---- */
+    .section {
+      max-width: var(--maxw); margin: 0 auto;
+      padding: 0 var(--pad) clamp(40px, 7vh, 76px);
+    }
+    .section-label {
+      font-size: 0.74rem; text-transform: uppercase;
+      letter-spacing: 0.16em; color: var(--fog);
+      font-weight: 500; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 2px solid var(--teal-deep);
+    }
+    .section p { max-width: var(--maxw-text); color: var(--ink-soft); margin-bottom: 1em; }
+    .section p:last-child { margin-bottom: 0; }
+
+    /* ---- ROW LIST (degrees, talks, endowment) ---- */
+    .rows { list-style: none; }
+    .row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 28px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .row-when {
+      font-size: 0.82rem; color: var(--fog);
+      letter-spacing: 0.04em; font-weight: 500;
+    }
+    .row-what { max-width: var(--maxw-text); }
+    .row-what strong { font-weight: 500; color: var(--graphite); display: block; }
+    .row-what span { color: var(--ink-soft); font-size: 0.95rem; }
+
+    .orcid-line {
+      font-size: 0.9rem; color: var(--fog);
+      margin-top: -8px; margin-bottom: 14px;
+    }
+    .orcid-line a { color: var(--ink-soft); }
+
+    /* ---- PUBLICATIONS ---- */
+    .pubs { list-style: none; }
+    .pub {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+      max-width: var(--maxw-text);
+    }
+    .pub-title {
+      font-family: var(--ff-body);
+      font-size: 1.08rem; font-weight: 500;
+      line-height: 1.35; margin-bottom: 6px;
+    }
+    .pub-title a { text-decoration: none; }
+    .pub-title a:hover { text-decoration: underline; }
+    .pub-meta { font-size: 0.9rem; color: var(--fog); line-height: 1.5; }
+    .pub-meta em { color: var(--ink-soft); font-style: italic; }
+
+    /* ---- LOCKED ITEM ---- */
+    .locked {
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--fog);
+      padding: 20px 24px;
+      max-width: var(--maxw-text);
+      background: #FAFCFC;
+    }
+    .locked strong { display: block; font-weight: 500; margin-bottom: 4px; }
+    .locked span { font-size: 0.92rem; color: var(--fog); }
+
+    /* ---- FOOTER ---- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 32px var(--pad);
+      max-width: var(--maxw); margin: clamp(30px,5vh,60px) auto 0;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-name {
+      font-family: var(--ff-display); font-size: 0.82rem;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--fog);
+    }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.85rem; color: var(--fog); text-decoration: none; }
+    .footer-links a:hover { color: var(--graphite); }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .row { grid-template-columns: 1fr; gap: 4px; }
+      .site-footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a href="/" class="brand">Andrew Stuckey</a>
+      <ul class="nav-links">
+        <li><a href="/about">About</a></li>
+        <li><a href="/academics" aria-current="page">Academics</a></li>
+        <li><a href="/cinematography">Cinematography</a></li>
+        <li><a href="/media">Media</a></li>
+        <li><a href="https://coralandpine.com">Coral and Pine</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="page-head">
+      <h1>Academics</h1>
+    </div>
+
+    <!-- ===== RESEARCH ===== -->
+    <section class="section">
+      <p class="section-label">Research</p>
+      <p>
+        My thesis is on early warning signals for epidemiological regime shifts. I work
+        on cholera dynamics, and on where deep-learning early warning methods stop being
+        reliable.
+      </p>
+      <p>
+        The wider interest is mathematical biology and applied dynamical systems. Most of
+        it comes down to thresholds — the point at which a population stops recovering, or
+        a disease outbreak changes character. The reason for locating them is to do it
+        while management decisions still have time to matter. Work in progress includes
+        density-dependent hybridization and reproductive interference models.
+      </p>
+      <p>
+        Filming is where a lot of these questions start. I spend enough time watching
+        animals that the modeling questions tend to arrive from the field.
+      </p>
+    </section>
+
+    <!-- ===== EDUCATION ===== -->
+    <section class="section">
+      <p class="section-label">Education</p>
+      <ul class="rows">
+        <li class="row">
+          <span class="row-when">Expected Fall 2026</span>
+          <span class="row-what">
+            <strong>MS, Applied Mathematics</strong>
+            <span>University of Tennessee at Chattanooga · Advisor: Dr. Xiunan Wang</span>
+          </span>
+        </li>
+        <li class="row">
+          <span class="row-when">&nbsp;</span>
+          <span class="row-what">
+            <strong>BS, Mathematics</strong>
+            <span>Dalton State College · Cum Laude</span>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===== PUBLICATIONS ===== -->
+    <section class="section">
+      <p class="section-label">Publications</p>
+      <p class="orcid-line">ORCID <a href="https://orcid.org/0009-0002-7834-4439" rel="noopener">0009-0002-7834-4439</a></p>
+      <ul class="pubs">
+        <li class="pub">
+          <p class="pub-title">
+            <a href="https://doi.org/10.1093/schbul/sbag094" rel="noopener">When the Study Becomes the Stressor</a>
+          </p>
+          <p class="pub-meta">
+            A. Stuckey · <em>Schizophrenia Bulletin</em> · 2026 · DOI 10.1093/schbul/sbag094
+          </p>
+        </li>
+        <li class="pub">
+          <p class="pub-title">
+            <a href="https://doi.org/10.1002/zoo.70061" rel="noopener">Fish space use and behavior in an aquarium: the use of microhabitats as enrichment</a>
+          </p>
+          <p class="pub-meta">
+            <em>Zoo Biology</em> · 2026 · DOI 10.1002/zoo.70061
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===== TALKS & OUTREACH ===== -->
+    <section class="section">
+      <p class="section-label">Talks &amp; Outreach</p>
+      <ul class="rows">
+        <li class="row">
+          <span class="row-when">&nbsp;</span>
+          <span class="row-what">
+            <strong>Finding Patterns Underwater: Photography, Light, and Geometry</strong>
+            <span>South Florida Freediver Festival</span>
+          </span>
+        </li>
+        <li class="row">
+          <span class="row-when">&nbsp;</span>
+          <span class="row-what">
+            <strong>Underwater photography and filter changes</strong>
+            <span>First LEGO League robotics team, East Side Elementary School, Chattanooga</span>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===== ENDOWMENT ===== -->
+    <section class="section">
+      <p class="section-label">Endowed Award</p>
+      <ul class="rows">
+        <li class="row">
+          <span class="row-when">UTC</span>
+          <span class="row-what">
+            <strong>Andrew Stuckey Endowed Graduate Award in Applied Mathematics and Environmental Sciences</strong>
+            <span>I established this award to support graduate students interested in a similar
+            path to mine, working across mathematics, computational science, and environmental
+            science.</span>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===== INTERACTIVE ===== -->
+    <section class="section">
+      <p class="section-label">Interactive</p>
+      <div class="locked">
+        <strong>Red wolf persistence model</strong>
+        <span>A two-species ODE model with a bifurcation explorer and phase portrait.
+        Available when the accompanying article is published.</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-name">Andrew Stuckey</span>
+    <div class="footer-links">
+      <a href="mailto:andrew.w.stuckey@gmail.com">andrew.w.stuckey@gmail.com</a>
+      <a href="https://www.instagram.com/drew_stuckey_/" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@andrew_stuckey" rel="noopener">YouTube</a>
+      <a href="https://www.naturefootage.com/contributor/profile/astucke1/andrew-stuckey-andrew-stuckey-media-llc" rel="noopener">NatureFootage</a>
+      <a href="https://orcid.org/0009-0002-7834-4439" rel="noopener">ORCID</a>
+    </div>
+  </footer>
+
+</body>
+</html>
