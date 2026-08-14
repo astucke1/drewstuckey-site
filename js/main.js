@@ -61,5 +61,57 @@
       };
       probe.src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
     });
+
+    // ---- Field clips: loop while in view, pause when not ----
+    // Looping is set per-clip via the `loop` attribute in the markup.
+    // Playback is still gated on visibility: a looping video that nobody is
+    // looking at burns CPU and battery forever, so clips pause on the way
+    // out and resume on the way back. The source is only attached when the
+    // clip nears the viewport, so pages don't pull megabytes for footage
+    // that's never scrolled to.
+    const clips = document.querySelectorAll('video[data-field-clip]');
+    if (clips.length) {
+      const reduceMotion =
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const attachSource = video => {
+        if (video.dataset.loaded) return;
+        const small = window.matchMedia('(max-width: 800px)').matches;
+        const src = small && video.dataset.srcMobile
+          ? video.dataset.srcMobile
+          : video.dataset.src;
+        if (!src) return;
+        video.src = src;
+        video.dataset.loaded = '1';
+      };
+
+      // No IntersectionObserver (or the visitor prefers reduced motion):
+      // leave the poster up and give them a control instead of autoplaying.
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        clips.forEach(video => {
+          attachSource(video);
+          video.setAttribute('controls', '');
+        });
+      } else {
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            const video = entry.target;
+            if (!entry.isIntersecting) {
+              if (!video.paused) video.pause();
+              return;
+            }
+            attachSource(video);
+            const played = video.play();
+            if (played && played.catch) {
+              // Autoplay refused — fall back to a normal player.
+              played.catch(() => video.setAttribute('controls', ''));
+            }
+            // Stay observed so the clip pauses again when it scrolls away.
+          });
+        }, { rootMargin: '200px 0px', threshold: 0.25 });
+
+        clips.forEach(video => io.observe(video));
+      }
+    }
   });
 })();

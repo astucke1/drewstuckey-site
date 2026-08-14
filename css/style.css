@@ -1175,8 +1175,89 @@ input[type="range"]:focus { outline: 2px solid var(--accent); outline-offset: 4p
 .footer-meta a:hover { color: var(--accent); }
 .dot { color: var(--rule-strong); }
 
+/* ============================ Field clips ============================
+   Self-hosted footage that plays through once when scrolled into view.
+   Not a loop — these clips have a beginning and an end. See main.js.
+   ==================================================================== */
+.field-clip {
+  margin: clamp(36px, 6vh, 72px) 0;
+}
+.field-clip-frame {
+  position: relative;
+  background: var(--c-graphite);
+  overflow: hidden;
+  line-height: 0;
+}
+.field-clip-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Sits over the video until playback starts, so the first paint is never
+   a black box while the browser decides what to do about autoplay. */
+.field-clip-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(12, 69, 79, 0.10);
+}
+.field-clip figcaption {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.field-clip figcaption strong {
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.field-clip figcaption em {
+  font-family: var(--ff-accent);
+  font-style: italic;
+}
+
+/* ---- Hero treatment: the clip IS the top of the page ----
+   Placed as a direct child of <main>, outside .container, so it's genuinely
+   edge to edge with no negative-margin tricks and therefore no risk of
+   horizontal overflow. The video is cropped to fill rather than letterboxed.
+   Don't reach for overflow-x: hidden on body if something ever does spill —
+   it silently kills the sticky header and the sticky About sidebar. */
+.field-clip--hero {
+  margin: 0 0 clamp(28px, 5vh, 64px);
+  width: 100%;
+}
+.field-clip--hero .field-clip-frame {
+  height: clamp(380px, 74vh, 920px);
+}
+.field-clip--hero .field-clip-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.field-clip--hero .field-clip-frame::after {
+  box-shadow: none;
+}
+/* Caption returns to the text measure so it doesn't float in space. */
+.field-clip--hero figcaption {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 14px auto 0;
+  padding: 0 var(--pad);
+}
+
+@media (max-width: 700px) {
+  .field-clip--hero .field-clip-frame { height: clamp(300px, 56vh, 520px); }
+}
+
 /* ============================ Print ============================ */
 @media print {
+  .field-clip { display: none; }
   .site-header, .site-footer, .nav-toggle, .hero-ctas { display: none; }
   body { background: #fff; color: #000; }
   .pub-title a, .pub-meta, .pub-summary { color: #000; }

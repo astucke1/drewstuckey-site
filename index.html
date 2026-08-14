@@ -3,21 +3,276 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Andrew Stuckey — Applied Mathematician, Underwater Cinematographer</title>
-  <meta name="description" content="Applied mathematician and underwater/wildlife cinematographer working on conservation storytelling and mathematical biology.">
+  <title>Andrew Stuckey — Wildlife Cinematographer & Applied Mathematician</title>
+  <meta name="description" content="Wildlife and underwater cinematographer. Applied mathematician. Based in the Southern Appalachians.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #0097B2;
+      --teal-deep:  #0C454F;
+      --ice:        #C3D8DC;
+      --fog:        #849DA1;
+      --graphite:   #323536;
+      --rust:       #732209;
+      --white:      #FFFFFF;
+      --ink-soft:   #4A5256;
+      --rule:       #D9E3E5;
+
+      --ff-display: "Archivo Black", sans-serif;
+      --ff-body:    "DM Sans", system-ui, sans-serif;
+
+      --pad: clamp(20px, 5vw, 60px);
+      --maxw: 1180px;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--graphite);
+      font-family: var(--ff-body);
+      font-size: clamp(1rem, 1.2vw, 1.15rem);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-underline-offset: 3px; }
+    a:hover { color: var(--teal); }
+
+    /* ---- NAV ---- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 18px var(--pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-family: var(--ff-display);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--graphite);
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--teal-deep); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links a:hover { color: var(--graphite); }
+
+    /* ---- HERO ---- */
+    .hero {
+      background: var(--teal-deep);
+      min-height: 88vh;
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* poster shows until the first frame decodes */
+      background: var(--teal-deep) center/cover no-repeat;
+    }
+    /* If the browser blocks autoplay or JS is off, the poster still fills the hero. */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video { display: none; }
+      .hero { background: var(--teal-deep) url("media/shark-poster.jpg") center/cover no-repeat; }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(12,69,79,0.85) 0%,
+        rgba(12,69,79,0.2) 50%,
+        transparent 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 var(--pad) clamp(48px, 8vh, 96px);
+      width: 100%;
+    }
+    .hero-name {
+      font-family: var(--ff-display);
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      margin-bottom: 0.2em;
+    }
+    .hero-sub {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      color: rgba(255,255,255,0.65);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      margin-bottom: 2em;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 13px 28px;
+      font-family: var(--ff-display);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      line-height: 1;
+    }
+    .btn-primary {
+      background: var(--white);
+      color: var(--teal-deep);
+      border-color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.8);
+    }
+
+    /* ---- INTRO ---- */
+    .intro {
+      padding: clamp(48px, 8vh, 96px) var(--pad);
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 96px);
+      align-items: start;
+    }
+    .intro-text p {
+      font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+      color: var(--ink-soft);
+      line-height: 1.6;
+      margin-bottom: 1em;
+    }
+    .intro-text p:last-child { margin-bottom: 0; }
+    .intro-facts {
+      border-top: 2px solid var(--teal-deep);
+      padding-top: 24px;
+    }
+    .fact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      gap: 16px;
+    }
+    .fact-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fog);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .fact-value {
+      font-size: 0.95rem;
+      overflow-wrap: anywhere;
+      color: var(--graphite);
+      text-align: right;
+      font-weight: 400;
+    }
+    .fact-value a {
+      text-decoration: none;
+      color: var(--graphite);
+    }
+    .fact-value a:hover { color: var(--teal); }
+
+    /* ---- FOOTER ---- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 32px var(--pad);
+      max-width: var(--maxw);
+      margin: clamp(40px, 6vh, 80px) auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-name {
+      font-family: var(--ff-display);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fog);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--fog);
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .footer-links a:hover { color: var(--graphite); }
+
+    @media (max-width: 760px) {
+      .intro { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .site-footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
-<body class="page-landing">
+<body>
+
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
       <a href="/" class="brand">Andrew Stuckey</a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links" id="nav-links">
+      <ul class="nav-links">
         <li><a href="/about">About</a></li>
         <li><a href="/research">Research</a></li>
         <li><a href="/cinematography">Cinematography</a></li>
@@ -28,46 +283,89 @@
   </header>
 
   <main>
-    <section class="hero hero-landing">
-      <div class="hero-bg" aria-hidden="true"></div>
+
+    <section class="hero" aria-label="Hero">
+      <video id="hero-video" class="hero-video" autoplay muted loop playsinline
+             preload="auto" poster="media/shark-poster.jpg" aria-hidden="true" tabindex="-1"></video>
+      <script>
+        // Pick the source before the element starts loading: small file on phones,
+        // and skip the video entirely if the visitor asked for reduced motion.
+        (function () {
+          var v = document.getElementById('hero-video');
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var small = window.matchMedia('(max-width: 800px)').matches;
+          v.src = small ? 'media/shark-mobile.mp4' : 'media/shark.mp4';
+          // Some mobile browsers refuse the autoplay attribute but allow a play() call.
+          var p = v.play();
+          if (p && p.catch) { p.catch(function () { /* poster stays up */ }); }
+        })();
+      </script>
+      <div class="hero-overlay" aria-hidden="true"></div>
       <div class="hero-content">
-        <p class="eyebrow">Mathematics &middot; Cinematography &middot; Conservation</p>
         <h1 class="hero-name">Andrew Stuckey</h1>
-        <p class="hero-tag">Applied mathematician. Underwater cinematographer. Conservation storyteller.</p>
+        <p class="hero-sub">Wildlife &amp; Underwater Cinematographer &nbsp;·&nbsp; Applied Mathematician</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="/research">RESEARCH</a>
-          <a class="btn btn-ghost" href="/cinematography">Cinematography</a>
+          <a class="btn btn-primary" href="/cinematography">Cinematography</a>
+          <a class="btn btn-ghost" href="/research">Research</a>
         </div>
       </div>
     </section>
 
-    <section class="intro-block">
-      <div class="container narrow">
-        <p class="lede">
-          My research in mathematical biology is shaped by field experience as a wildlife and
-          underwater cinematographer. That background motivates my interest in biologically
-          grounded models of conservation, disease, and ecological transition.
-        </p>
+    <section aria-label="Introduction">
+      <div class="intro">
+        <div class="intro-text">
+          <p>
+            I film wildlife above and below the water. Most of that work happens in
+            the Southern Appalachians and along the southeastern coast, though not
+            all of it.
+          </p>
+          <p>
+            I am also finishing an MS in Applied Mathematics at the University of
+            Tennessee at Chattanooga. My research is in mathematical biology, working
+            with Dr. Xiunan Wang.
+          </p>
+        </div>
+        <div class="intro-facts">
+          <div class="fact-row">
+            <span class="fact-label">Contact</span>
+            <span class="fact-value"><a href="mailto:andrew.w.stuckey@gmail.com">andrew.w.stuckey@gmail.com</a></span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Stock footage</span>
+            <span class="fact-value"><a href="https://www.naturefootage.com/contributor/profile/astucke1/andrew-stuckey-andrew-stuckey-media-llc" rel="noopener">NatureFootage</a></span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Underwater portraits</span>
+            <span class="fact-value"><a href="https://coralandpine.com">Coral and Pine</a></span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Research</span>
+            <span class="fact-value"><a href="https://orcid.org/0009-0002-7834-4439" rel="noopener">ORCID 0009-0002-7834-4439</a></span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Instagram</span>
+            <span class="fact-value"><a href="https://www.instagram.com/drew_stuckey_/" rel="noopener">@drew_stuckey_</a></span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">YouTube</span>
+            <span class="fact-value"><a href="https://www.youtube.com/@andrew_stuckey" rel="noopener">@andrew_stuckey</a></span>
+          </div>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p class="footer-name">Andrew Stuckey</p>
-      <p class="footer-meta">
-        <a href="https://orcid.org/0009-0002-7834-4439" rel="noopener">ORCID</a>
-        <span class="dot">&middot;</span>
-        <a href="https://www.instagram.com/drew_stuckey_/" rel="noopener">Instagram</a>
-        <span class="dot">&middot;</span>
-        <a href="https://www.youtube.com/@andrew_stuckey" rel="noopener">YouTube</a>
-        <span class="dot">&middot;</span>
-        <a href="https://www.naturefootage.com/contributor/profile/astucke1/andrew-stuckey-andrew-stuckey-media-llc" rel="noopener">NatureFootage</a>
-      </p>
+  <footer class="site-footer" aria-label="Site footer">
+    <span class="footer-name">Andrew Stuckey</span>
+    <div class="footer-links">
+      <a href="mailto:andrew.w.stuckey@gmail.com">andrew.w.stuckey@gmail.com</a>
+      <a href="https://www.instagram.com/drew_stuckey_/" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@andrew_stuckey" rel="noopener">YouTube</a>
+      <a href="https://www.naturefootage.com/contributor/profile/astucke1/andrew-stuckey-andrew-stuckey-media-llc" rel="noopener">NatureFootage</a>
+      <a href="https://orcid.org/0009-0002-7834-4439" rel="noopener">ORCID</a>
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
 </body>
 </html>
