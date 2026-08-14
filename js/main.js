@@ -75,7 +75,10 @@
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       const attachSource = video => {
-        if (video.dataset.loaded) return;
+        // Hero clips set their own src from an inline script so they start
+        // without waiting on this file. Never re-assign it — doing so
+        // restarts the download and visibly stutters playback.
+        if (video.dataset.loaded || video.currentSrc || video.src) return;
         const small = window.matchMedia('(max-width: 800px)').matches;
         const src = small && video.dataset.srcMobile
           ? video.dataset.srcMobile

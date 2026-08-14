@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260814">
 </head>
 <body class="page-research">
   <header class="site-header">
@@ -30,14 +30,29 @@
   <main>
     <figure class="field-clip field-clip--hero">
       <div class="field-clip-frame">
-        <video
+        <video id="clip-redwolf"
           data-field-clip
           data-src="media/redwolf-web.mp4"
           data-src-mobile="media/redwolf-mobile.mp4"
           poster="media/redwolf-poster.jpg"
-          muted loop playsinline preload="metadata"
+          autoplay muted loop playsinline preload="auto"
           aria-label="A collared wild red wolf hunts through a harvested soybean field, catches prey, and moves off toward the treeline."></video>
       </div>
+      <script>
+        /* Inline on purpose — see the note on the About page clip. */
+        (function () {
+          var v = document.getElementById('clip-redwolf');
+          if (!v) return;
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            v.src = v.dataset.src; v.removeAttribute('autoplay');
+            v.setAttribute('controls', ''); return;
+          }
+          v.src = window.matchMedia('(max-width: 800px)').matches
+            ? v.dataset.srcMobile : v.dataset.src;
+          var p = v.play();
+          if (p && p.catch) p.catch(function () { v.setAttribute('controls', ''); });
+        })();
+      </script>
       <figcaption>
         <strong>Wild red wolf, Alligator River.</strong>
         <span>A collared animal from the reintroduced population hunting a harvested
@@ -119,6 +134,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=20260814"></script>
 </body>
 </html>
